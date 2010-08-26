@@ -19,7 +19,8 @@ class sfReplicaImageDoctrine extends Replica_ImageProxy_Abstract
     protected
         $_id,
         $_model,
-        $_record;
+        $_record,
+        $_size;
 
 
     /**
@@ -44,6 +45,8 @@ class sfReplicaImageDoctrine extends Replica_ImageProxy_Abstract
 
                 $this->_model = get_class($this->_record);
 
+                $this->_size = $model->getSize();
+
             } else {
                 $class = get_class($model);
                 throw new InvalidArgumentException(__METHOD__.": Expected instance of `Doctrine_Record`, got `{$class}`");
@@ -64,7 +67,7 @@ class sfReplicaImageDoctrine extends Replica_ImageProxy_Abstract
     public function getUid()
     {
         if ($this->_id) {
-            return $this->_model . '::' . $this->_id;
+            return $this->_model . '::' . $this->_size . '::' . $this->_id;
         }
     }
 
